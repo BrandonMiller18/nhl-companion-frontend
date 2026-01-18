@@ -29,7 +29,7 @@ async function apiFetch<T>(endpoint: string): Promise<T> {
     const response = await fetch(url, {
       method: 'GET',
       headers,
-      cache: 'no-store', // Disable caching for real-time data
+      // Let the server's Cache-Control headers determine caching behavior
     });
     
     if (!response.ok) {
@@ -44,7 +44,7 @@ async function apiFetch<T>(endpoint: string): Promise<T> {
       } else if (response.status === 422) {
         throw new Error(errorData.detail || 'Invalid request parameters');
       } else if (response.status === 500) {
-        throw new Error('Server error: Please try again later');
+        throw new Error(errorData.detail + ` - HTTP ${response.status}: ${response.statusText}`);
       } else {
         throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`);
       }
@@ -86,6 +86,8 @@ export async function getGamesByDate(date?: string, timezone?: string): Promise<
   
   const queryString = params.toString();
   const endpoint = queryString ? `/api/games?${queryString}` : '/api/games';
+
+  console.log(`[Games API] Fetching from: ${endpoint}`);
   
   return apiFetch<GameResponse[]>(endpoint);
 }
