@@ -21,6 +21,7 @@ export interface PlayerResponse {
   playerHeadshotUrl: string | null;
   playerHomeCity: string | null;
   playerHomeCountry: string | null;
+  playerIsActive: number | null;
 }
 
 export interface GameResponse {

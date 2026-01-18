@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
       : `${API_BASE_URL}/api/games`;
 
     console.log(`[Games API] Fetching from: ${url}`);
+    const fetchStart = Date.now();
 
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
@@ -30,10 +31,11 @@ export async function GET(request: NextRequest) {
 
     const response = await fetch(url, {
       headers,
-      cache: 'no-store',
+      next: { revalidate: 3600 }, // 1 hour in seconds
     });
 
-    console.log(`[Games API] Response status: ${response.status}`);
+    const fetchDuration = Date.now() - fetchStart;
+    console.log(`[Games API] Response status: ${response.status}, fetch duration: ${fetchDuration}ms`);
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
@@ -43,7 +45,12 @@ export async function GET(request: NextRequest) {
 
     const data = await response.json();
     console.log(`[Games API] Received ${Array.isArray(data) ? data.length : 'non-array'} games`);
-    return NextResponse.json(data);
+    
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800',
+      },
+    });
   } catch (error) {
     console.error('[Games API] Error fetching games:', error);
     return NextResponse.json(
