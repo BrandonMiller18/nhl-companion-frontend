@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     const response = await fetch(url, {
       headers,
-      next: { revalidate: 3600 }, // 1 hour in seconds
+      next: { revalidate: 60 }, // 1 minute in seconds
     });
 
     const fetchDuration = Date.now() - fetchStart;
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=1800',
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
       },
     });
   } catch (error) {
