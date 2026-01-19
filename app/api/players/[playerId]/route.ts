@@ -20,7 +20,7 @@ export async function GET(
 
     const response = await fetch(`${API_BASE_URL}/api/players/${playerId}`, {
       headers,
-      cache: 'no-store',
+      next: { revalidate: 86400 }, // 24 hours in seconds
     });
 
     if (!response.ok) {
@@ -29,7 +29,11 @@ export async function GET(
     }
 
     const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=43200',
+      },
+    });
   } catch (error) {
     console.error('Error fetching player:', error);
     return NextResponse.json(
