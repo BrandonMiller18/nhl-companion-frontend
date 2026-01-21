@@ -47,10 +47,6 @@ export default function GameStatusBadge({ gameStatus, game, teamId, timezone }: 
     );
   }
 
-  return (
-    <div className="bg-gray-500 text-white font-bold px-3 py-1 rounded-full text-sm text-center">
-      ❌ No game today
-    </div>
-  );
+  return null;
 }
 

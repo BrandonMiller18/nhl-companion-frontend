@@ -17,13 +17,13 @@ export default function TeamCard({ team, timezone }: TeamCardProps) {
     >
       {/* Background Logo - expands on hover */}
       {team.teamLogoUrl && (
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none mb-15">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none mb-0">
           <Image
             src={team.teamLogoUrl}
             alt={`${team.teamName} background logo`}
             width={400}
             height={400}
-            className="object-contain w-full h-full scale-75 group-hover:scale-100 transition-transform duration-300"
+            className="object-cover w-full h-full scale-0 group-hover:scale-105 transition-transform duration-500"
           />
         </div>
       )}

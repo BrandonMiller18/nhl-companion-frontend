@@ -113,7 +113,7 @@ export function getTeamGameStatus(teamId: number, games: GameResponse[]): GameSt
     return 'live';
   }
   
-  if (state === 'FUT') {
+  if (state === 'FUT' || state === 'PRE') {
     return 'upcoming';
   }
   
