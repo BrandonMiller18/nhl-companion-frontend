@@ -6,6 +6,7 @@ import { getUserTimezone, loadTimezonePreference, getTeamGameStatus, findTeamGam
 import { TeamWithStatus } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { PageHeader, TeamsGrid } from '@/components/home';
+import Error from '@/components/error';
 
 export default function Home() {
   const [teamsWithStatus, setTeamsWithStatus] = useState<TeamWithStatus[]>([]);
@@ -54,7 +55,7 @@ export default function Home() {
 
         setTeamsWithStatus(teamsWithGameStatus);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load teams');
+        setError('Error fetching teams: ' + err);
         console.error('Error loading teams:', err);
       } finally {
         setLoading(false);
@@ -74,13 +75,7 @@ export default function Home() {
 
   if (error) {
     return (
-      <div className="min-h-screen p-8">
-        <h1 className="text-3xl font-bold mb-4">NHL Companion</h1>
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          <p className="font-bold">Error</p>
-          <p>{error}</p>
-        </div>
-      </div>
+      <Error error={error} />
     );
   }
 

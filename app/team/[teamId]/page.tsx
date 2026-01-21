@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getActiveTeams, getGamesByDate, getTeamPlayers } from '@/lib/api-client';
 import { getUserTimezone, loadTimezonePreference, findTeamGame } from '@/lib/utils';
@@ -9,6 +9,7 @@ import { TeamResponse, GameResponse, PlayerResponse } from '@/types/api';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import WatchGameModal from '@/components/WatchGameModal';
 import { TeamHeader, TodaysGame, TeamRoster } from '@/components/team';
+import Error from '@/components/error';
 
 export default function TeamPage() {
   const params = useParams();
@@ -39,21 +40,24 @@ export default function TeamPage() {
 
   // Fetch team data immediately on mount to get logo for loading spinner
   useEffect(() => {
-    const fetchTeamForLogo = async () => {
+    const fetchTeam = async () => {
+      console.log('[Active Teams API] Searching for team: ' + teamIdNum);
+      
       try {
         const teams = await getActiveTeams();
         const foundTeam = teams.find(t => t.teamId === teamIdNum) || null;
         setTeam(foundTeam);
         if (!foundTeam) {
-          setError('Team not found');
-          setLoading(false);
+          console.error('Team not found: ' + teamIdNum);
         }
       } catch (err) {
         console.error('Error loading team for logo:', err);
+        setError('Team not found: ' + err);
       }
+      setLoading(false);
     };
 
-    fetchTeamForLogo();
+    fetchTeam();
   }, [teamIdNum]);
 
   // Fetch remaining data when timezone changes
@@ -76,15 +80,15 @@ export default function TeamPage() {
         // Set players
         setPlayers(teamPlayers);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load team data');
+        setError(err + ': Failed to load team data');
         console.error('Error loading team:', err);
       } finally {
         setLoading(false);
       }
     };
 
-    // Only fetch if we have a team (or confirmed it doesn't exist)
-    if (team || error) {
+    // Only fetch if we have a team
+    if (team) {
       fetchData();
     }
   }, [teamIdNum, timezone, team, error]);
@@ -95,19 +99,20 @@ export default function TeamPage() {
     );
   }
 
-  if (error || !team) {
+  if (error) {
     return (
-      <div className="min-h-screen p-8">
-        <Link href="/" className="text-blue-600 hover:underline mb-4 inline-block">
-          ← Back to Teams
-        </Link>
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4">
-          <p className="font-bold">Error</p>
-          <p>{error || 'Team not found'}</p>
-        </div>
-      </div>
+      <Error error={error} />
     );
   }
+
+  if (!team && !error) {
+    console.log("Team:", team);
+    console.log("Error:", error);
+    return (
+      notFound()
+    );
+  }
+
 
   return (
     <div className="min-h-screen p-8">
@@ -115,12 +120,12 @@ export default function TeamPage() {
         ← Back to Teams
       </Link>
 
-      <TeamHeader team={team} />
+      <TeamHeader team={team!} />
 
       <TodaysGame
         game={todaysGame}
         teamId={teamIdNum}
-        teamAbbrev={team.teamAbbrev || ''}
+        teamAbbrev={team!.teamAbbrev || ''}
         timezone={timezone}
         isTestMode={isTestMode}
         onWatchGame={() => setIsWatchModalOpen(true)}

@@ -4,6 +4,7 @@ const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8001';
 const API_BEARER_TOKEN = process.env.API_BEARER_TOKEN;
 
 export async function GET() {
+  console.log('[Active Teams API] Fetching from: ' + API_BASE_URL + '/api/teams/active');
   try {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
