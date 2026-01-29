@@ -1,5 +1,5 @@
 import { GameResponse, GameStatus } from '@/types/api';
-import { formatGameTime } from '@/lib/utils';
+import { formatGameTime, formatGameDisplayPeriod } from '@/lib/utils';
 
 interface GameStatusBadgeProps {
   gameStatus: GameStatus;
@@ -15,7 +15,7 @@ export default function GameStatusBadge({ gameStatus, game, teamId, timezone }: 
         <div>🔴 LIVE</div>
         {game.gamePeriod && (
           <div className="text-xs mt-1">
-            Period {game.gamePeriod} - {game.gameClock}
+            {formatGameDisplayPeriod(game.gamePeriod, game.gameInIntermission)} - {game.gameClock}
           </div>
         )}
       </div>

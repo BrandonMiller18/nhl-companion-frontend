@@ -35,6 +35,7 @@ export interface GameResponse {
   gameState: string;
   gamePeriod: number | null;
   gameClock: string | null;
+  gameInIntermission: boolean;
   gameHomeScore: number;
   gameAwayScore: number;
   gameHomeSOG: number;

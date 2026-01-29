@@ -1,4 +1,5 @@
 import { GameResponse } from '@/types/api';
+import { formatGameDisplayPeriod } from '@/lib/utils';
 import GameStateBadge from './GameStateBadge';
 
 interface GameScoreboardProps {
@@ -8,9 +9,9 @@ interface GameScoreboardProps {
 
 export default function GameScoreboard({ gameData, scoreChangeAnimation }: GameScoreboardProps) {
   return (
-    <div className="bg-white/5 text-white rounded-lg shadow-2xl p-8 mb-6 border">
+    <div className="bg-white/5 text-white rounded-lg shadow-2xl p-5 sm:p-8 mb-6 border">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-white">Live Game</h1>
+        <h1 className="text-3xl font-bold text-white">Scoreboard</h1>
         <GameStateBadge gameState={gameData.gameState} />
       </div>
 
@@ -31,8 +32,8 @@ export default function GameScoreboard({ gameData, scoreChangeAnimation }: GameS
         <div className="space-y-2">
           {gameData.gamePeriod !== null && (
             <div className="space-y-1">
-              <p className="text-lg font-semibold text-white/70">
-                Period {gameData.gamePeriod}
+              <p className="md:text-xl text-sm font-semibold text-white/70">
+                {formatGameDisplayPeriod(gameData.gamePeriod, gameData.gameInIntermission)}
               </p>
               {gameData.gameClock && (
                 <p className="text-xl font-bold text-red-400 transition-all duration-300">
@@ -41,7 +42,7 @@ export default function GameScoreboard({ gameData, scoreChangeAnimation }: GameS
               )}
             </div>
           )}
-          <p className="text-sm text-white/70">
+          <p className="text-xs md:text-sm text-white/70">
             SOG: {gameData.gameHomeSOG} - {gameData.gameAwaySOG}
           </p>
         </div>
