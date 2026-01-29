@@ -52,7 +52,7 @@ export default function PlayerInfo({ playerId, playerCache }: PlayerInfoProps) {
   if (!player) return null;
 
   return (
-    <div className="flex items-center gap-3 mt-3 pt-3">
+    <div className="flex items-center gap-3 md:mt-3 pt-3">
       {player.playerHeadshotUrl ? (
         <Image
           src={player.playerHeadshotUrl}

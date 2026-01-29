@@ -6,7 +6,7 @@ interface ConfigInfoProps {
 
 export default function ConfigInfo({ config }: ConfigInfoProps) {
   return (
-    <div className="mt-6 bg-white/5 rounded-lg shadow-lg p-4 text-sm text-white border">
+    <div className="mt-6 bg-white/5 rounded-lg shadow-lg p-5 sm:p-8 text-sm text-white border">
       <h3 className="font-semibold text-white mb-2">Configuration</h3>
       <ul className="space-y-1 text-white/70">
         <li>• Polling: Every {config.pollingFrequency} seconds</li>

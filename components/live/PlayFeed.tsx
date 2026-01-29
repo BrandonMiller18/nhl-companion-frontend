@@ -9,8 +9,8 @@ interface PlayFeedProps {
 
 export default function PlayFeed({ plays, newPlayIds, playerCache }: PlayFeedProps) {
   return (
-    <div className="bg-white/5 rounded-lg shadow-2xl p-8 border">
-      <h2 className="text-2xl font-bold mb-6 text-white">Major Events</h2>
+    <div className="bg-white/5 rounded-lg shadow-2xl p-5 sm:p-8 border">
+      <h2 className="text-2xl font-bold mb-6 text-white">Key Plays and Events</h2>
       
       {plays.length > 0 ? (
         <div className="space-y-3 max-h-96 overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-white scrollbar-track-gray-800/50 hover:scrollbar-thumb-white/70">

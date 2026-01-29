@@ -217,6 +217,34 @@ export function formatPlayDescription(play: any): string {
   return description;
 }
 
+
+export function formatGameDisplayPeriod(period: number, inIntermission: boolean): number | string {
+  
+  if (!inIntermission && period == 1) {
+    return '1st Period';
+  }
+  if (!inIntermission && period == 2) {
+    return '2nd Period';
+  }
+  if (!inIntermission && period == 3) {
+    return '3rd Period';
+  }
+  
+  if (inIntermission && period == 1) {
+    return '1st Intermission';
+  }
+  if (inIntermission && period == 2) {
+    return '2nd Intermission';
+  }
+  if (inIntermission && period == 3) {
+    return 'End of Reg';
+  }
+
+  return 'OT';
+}
+
+
+
 /**
  * Validates a webhook URL (must be HTTPS)
  * @param url - The URL to validate

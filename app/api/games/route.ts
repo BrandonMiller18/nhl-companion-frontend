@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     const response = await fetch(url, {
       headers,
-      next: { revalidate: 60 }, // 1 minute in seconds
+      next: { revalidate: 10 }, // 1 minute in seconds
     });
 
     const fetchDuration = Date.now() - fetchStart;

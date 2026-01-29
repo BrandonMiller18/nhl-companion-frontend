@@ -5,7 +5,7 @@ interface GameStateBadgeProps {
 export default function GameStateBadge({ gameState }: GameStateBadgeProps) {
   if (gameState === 'LIVE' || gameState === 'CRIT') {
     return (
-      <span className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold animate-pulse shadow-lg shadow-red-500/50">
+      <span className="bg-red-500 text-white sm:px-4 py-2 rounded-full font-semibold animate-pulse shadow-lg shadow-red-500/50">
         🔴 LIVE
       </span>
     );
